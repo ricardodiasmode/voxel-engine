@@ -28,26 +28,36 @@ namespace glHandler
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_DEPTH_BITS, 24);
 
         // Create Window
-        window = glfwCreateWindow(800, 600, "Triangle", NULL, NULL);
+        window = glfwCreateWindow(800, 600, "Voxel Engine", NULL, NULL);
         if (window == nullptr)
         {
             std::cout << "Failed to create GLFW window" << std::endl;
             glfwTerminate();
             return false;
         }
+
         glfwMakeContextCurrent(window);
 
         // Load OpenGL function pointers using GLAD
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
             std::cout << "Failed to initialize GLAD" << std::endl;
-            return -1;
+            return false;
         }
 
         glViewport(0, 0, 800, 600);
         glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+        // Enabling depth test
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+
+        // Enable VSync to cap FPS
+        glfwSwapInterval(0); 
+
         return true;
     }
 
