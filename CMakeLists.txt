@@ -10,7 +10,11 @@ set(FREETYPE_DIR "${CMAKE_SOURCE_DIR}/thirdparty/freetype-2.13.3")
 add_subdirectory(${FREETYPE_DIR} freetype_build)
 
 # Create the executable, making sure to compile glad.c
-file(GLOB_RECURSE PROJECT_SOURCES "src/*.cpp" "src/*.c")
+file(GLOB_RECURSE PROJECT_SOURCES 
+    "src/*.cpp" 
+    "src/*.c" 
+    "src/utils/*.cpp" 
+)
 add_executable(voxelengine ${PROJECT_SOURCES})
 
 file(COPY ${CMAKE_SOURCE_DIR}/src/opengl/shaders DESTINATION ${CMAKE_BINARY_DIR})
