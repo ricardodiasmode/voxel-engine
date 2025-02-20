@@ -37,6 +37,9 @@ namespace text
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
+
+        glEnable(GL_BLEND); // Ensure blending is on
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
     void loadFont(const std::string& fontPath) {
