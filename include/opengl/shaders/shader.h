@@ -18,6 +18,8 @@ public:
     // ------------------------------------------------------------------------
     Shader(const char* vertexPath, const char* fragmentPath, const char* shaderName);
 
+    ~Shader();
+
     // activate the shader
     // ------------------------------------------------------------------------
     void use()

@@ -17,7 +17,13 @@ file(GLOB_RECURSE PROJECT_SOURCES
 )
 add_executable(voxelengine ${PROJECT_SOURCES})
 
-file(COPY ${CMAKE_SOURCE_DIR}/src/opengl/shaders DESTINATION ${CMAKE_BINARY_DIR})
+set(SHADER_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/opengl/shaders)
+
+# Define the destination directory (where the executable runs)
+set(SHADER_DEST_DIR ${CMAKE_BINARY_DIR}/shaders)
+
+# Ensure the shaders are copied to the build directory
+file(COPY ${SHADER_SOURCE_DIR} DESTINATION ${CMAKE_BINARY_DIR})
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/resources/fonts/arial)
 
@@ -25,7 +31,7 @@ file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/resources/fonts/arial)
 file(COPY ${CMAKE_SOURCE_DIR}/resources/fonts/arial/ARIAL.ttf
      DESTINATION ${CMAKE_BINARY_DIR}/resources/fonts/arial)
 
-# Include your project’s headers (glad.h will be found inside include/)
+# Include your projectï¿½s headers (glad.h will be found inside include/)
 target_include_directories(voxelengine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 target_include_directories(voxelengine PRIVATE ${GLM_DIR})
 
