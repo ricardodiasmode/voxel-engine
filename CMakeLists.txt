@@ -15,7 +15,8 @@ file(GLOB_RECURSE PROJECT_SOURCES
     "src/*.c" 
     "src/utils/*.cpp" 
 )
-add_executable(voxelengine ${PROJECT_SOURCES})
+add_executable(voxelengine ${PROJECT_SOURCES}
+        src/window/window.cpp)
 
 set(SHADER_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/opengl/shaders)
 

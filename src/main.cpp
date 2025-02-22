@@ -1,3 +1,4 @@
+#include <component-owner/player/player.h>
 #include <glad/glad.h>
 #include <meshes/quadmesh.h>
 
@@ -34,6 +35,8 @@ int main()
 
     QuadMesh quadMesh;
 
+    std::unique_ptr<Player> player = std::make_unique<Player>(window->getWindow());
+
     // Render Loop
     while (!glfwWindowShouldClose(window->getWindow()))
     {
@@ -41,6 +44,11 @@ int main()
 
         fps::drawFPS(fpsText);
 
+        player->update();
+
+        quadMesh.activate();
+        quadMesh.updateView(player->getView());
+        quadMesh.updateProj(player->getProj());
         quadMesh.draw();
 
         // Swap buffers and poll events

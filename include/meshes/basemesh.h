@@ -3,6 +3,7 @@
 
 class BaseMesh
 {
+public:
 	Shader shader;
 
 	std::vector<float> vertexData;
@@ -22,4 +23,8 @@ public:
 	~BaseMesh();
 
 	void draw();
+	void activate();
+
+	void updateView(const glm::mat4& view);
+	void updateProj(const glm::mat4& perspective);
 };

@@ -1,6 +1,10 @@
 #include "meshes/basemesh.h"
 
 #include <utils/debug.h>
+#include <glm/gtc/type_ptr.hpp>
+
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/string_cast.hpp>
 
 void BaseMesh::setVertexData(const std::vector<float> &inVertexData) {
 	static constexpr auto POSITION_ATTRIBUTE_INDEX = 0; // assuming we will always set location index to 0
@@ -50,8 +54,6 @@ BaseMesh::~BaseMesh() {
 }
 
 void BaseMesh::draw() {
-	shader.use();  // Activate the shader
-
 	glBindVertexArray(VAO);  // Bind the VAO (contains VBO & EBO)
 
 	if (EBO) {
@@ -61,5 +63,17 @@ void BaseMesh::draw() {
 	}
 
 	glBindVertexArray(0);  // Unbind for safety
+}
+
+void BaseMesh::activate() {
+	shader.use();  // Activate the shader
+}
+
+void BaseMesh::updateView(const glm::mat4& view) {
+	shader.setMat4("view", view);
+}
+
+void BaseMesh::updateProj(const glm::mat4 &perspective) {
+	shader.setMat4("projection", perspective);
 }
 
