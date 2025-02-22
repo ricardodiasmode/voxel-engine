@@ -20,6 +20,8 @@ struct InputData {
 };
 
 class PlayerInput {
+	static constexpr auto MOUSE_INPUT_MODE = GLFW_CURSOR_DISABLED;
+
 private:
 	bool debug = false;
 

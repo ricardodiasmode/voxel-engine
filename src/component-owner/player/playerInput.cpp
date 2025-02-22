@@ -15,6 +15,8 @@ PlayerInput::PlayerInput(GLFWwindow* window,
 
 	glfwSetCursorPosCallback(window, PlayerInput::cursorCallbackStatic);
 
+	glfwSetInputMode(window, GLFW_CURSOR, MOUSE_INPUT_MODE);
+
 	windowRef = window;
 }
 
@@ -26,6 +28,11 @@ void PlayerInput::keyCallbackStatic(GLFWwindow* window, int key, int scancode, i
 
 void PlayerInput::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+	if (windowRef && key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	{ // Restore cursor
+		glfwSetInputMode(windowRef, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		return;
+	}
 	if (mappedKeys.contains({key, action}) && mappedKeys[{key, action}]) {
 		if (debug)
 			print("PlayerInput calling key callback: " << key);
