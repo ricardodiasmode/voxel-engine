@@ -3,6 +3,8 @@
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* shaderName)
 {
+    std::cout << "Initializing shader: " << shaderName << std::endl;
+
     // 1. Retrieve the vertex/fragment source code from filePath
     std::string vertexCode;
     std::string fragmentCode;

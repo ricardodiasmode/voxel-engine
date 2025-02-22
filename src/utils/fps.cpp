@@ -22,7 +22,6 @@ void fps::drawFPS(Text text)
 {
     if (!textShader)
     {
-        print("initializing text shader");
         textShader = std::make_unique<Shader>("shaders/textVertex.glsl", "shaders/textFragment.glsl", "TextShader"); // Load your shaders
         textShader->use();
         textShader->setInt("text", 0); // Texture unit 0

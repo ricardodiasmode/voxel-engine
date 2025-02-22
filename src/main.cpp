@@ -1,6 +1,6 @@
 #include <component-owner/player/player.h>
 #include <glad/glad.h>
-#include <meshes/quadmesh.h>
+#include <world/chunk/chunk.h>
 
 #include "utils/text.h"
 #include "utils/fps.h"
@@ -33,7 +33,7 @@ int main()
     // Load font and set up text rendering
     Text fpsText = Text("resources/fonts/arial/ARIAL.ttf");  // Change to a real font path
 
-    QuadMesh quadMesh;
+    std::unique_ptr<Chunk> chunk = std::make_unique<Chunk>();
 
     std::unique_ptr<Player> player = std::make_unique<Player>(window->getWindow());
 
@@ -46,10 +46,7 @@ int main()
 
         player->update();
 
-        quadMesh.activate();
-        quadMesh.updateView(player->getView());
-        quadMesh.updateProj(player->getProj());
-        quadMesh.draw();
+        chunk->draw(player->getView(), player->getProj());
 
         // Swap buffers and poll events
         glfwSwapBuffers(window->getWindow());

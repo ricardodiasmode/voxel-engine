@@ -1,6 +1,7 @@
 #include "component-owner/player/player.h"
 
 #include <utils/debug.h>
+#include "world/chunk/chunk.h"
 
 void Player::moveForward() {
 	if (!playerCamera)
@@ -58,6 +59,8 @@ void Player::update() {
 
 Player::Player(GLFWwindow* window)
 {
+	position = glm::vec3(Chunk::HORIZONTAL_CHUNK_SIZE, Chunk::CHUNK_SIZE, Chunk::CHUNK_SIZE * 1.5);
+
 	playerCamera = initializeComponent<Camera>(position,
 		0.f,
 		0.f);
