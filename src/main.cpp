@@ -6,9 +6,6 @@
 #include "utils/fps.h"
 #include <window/window.h>
 
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/string_cast.hpp>
-
 int main()
 {
     if (!glfwInit())

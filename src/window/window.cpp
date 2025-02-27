@@ -40,5 +40,5 @@ void Window::initializeGL()
     glDepthFunc(GL_LESS);
 
     // Enable VSync to cap FPS
-    glfwSwapInterval(0);
+    glfwSwapInterval(1);
 }

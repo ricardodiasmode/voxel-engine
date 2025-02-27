@@ -6,7 +6,7 @@
 #include "component-owner/componentOwner.h"
 
 class Player : public ComponentOwner {
-	static constexpr auto PLAYER_VELOCITY = 0.1f;
+	static constexpr auto PLAYER_VELOCITY = 0.05f;
 	static constexpr auto MOUSE_SENSITIVITY = 0.005f;
 
 private:
