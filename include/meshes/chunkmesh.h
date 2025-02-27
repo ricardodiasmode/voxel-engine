@@ -26,6 +26,9 @@ private:
 protected:
     VertexData getVertexData();
 
+    virtual void updateShader(const glm::mat4& view,
+        const glm::mat4& perspective);
+
 public:
     ChunkMesh(Chunk* inChunk,
         const char* vertexPath, const char* fragmentPath);

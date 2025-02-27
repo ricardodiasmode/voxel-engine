@@ -4,6 +4,12 @@
 struct VertexData {
 	std::vector<glm::uint8> vertices;
 	std::vector<GLuint> indices;
+
+	void printVertices() {
+		std::cout << "[";
+		std::copy(vertices.begin(), vertices.end(), std::ostream_iterator<int>(std::cout, ", "));
+		std::cout << "\b\b]" << std::endl; // Backspace to remove trailing ", "
+	}
 };
 
 class BaseMesh
@@ -29,6 +35,9 @@ private:
 protected:
 	virtual void setVertexData(const VertexData& inVertexData);
 
+	virtual void updateShader(const glm::mat4& view,
+		const glm::mat4& perspective);
+
 	BaseMesh(const char *vertexPath, 
 		const char *fragmentPath);
 
@@ -37,4 +46,6 @@ public:
 
 	void draw(const glm::mat4& view,
 		const glm::mat4& perspective);
+
+	int getAttrNum() { return 5; }
 };

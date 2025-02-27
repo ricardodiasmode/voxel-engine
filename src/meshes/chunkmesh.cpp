@@ -1,6 +1,7 @@
 ﻿#include <meshes/chunkmesh.h>
 #include "world/chunk/chunk.h"
 #include "utils/debug.h"
+#include <glm/ext/matrix_transform.hpp>
 
 ChunkMesh::ChunkMesh(Chunk* inChunk, 
 	const char* vertexPath, const char* fragmentPath) :	BaseMesh(vertexPath, 
@@ -161,4 +162,13 @@ VertexData ChunkMesh::getVertexData()
 	}
 	data.vertices.resize(index * VERTEX_ATTR_NUM);
 	return data;
+}
+
+void ChunkMesh::updateShader(const glm::mat4& view, const glm::mat4& perspective)
+{
+	BaseMesh::updateShader(view, perspective);
+
+	glm::vec3 cameraPos(25, -48, -18);
+	glm::vec3 chunkPosition = cameraPos + glm::vec3(0, 0, 10); // 10 units in front
+	shader.setMat4("model", glm::translate(glm::mat4(1.0f), chunkPosition));
 }

@@ -4,13 +4,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 void BaseMesh::setVertexData(const VertexData& inVertexData) {
-	static constexpr auto POSITION_ATTRIBUTE_INDEX = 0; // assuming we will always set location index to 0
-	static constexpr auto COLOR_ATTRIBUTE_INDEX = 1; // assuming we will always set color index to 0
+	static constexpr auto POSITION_ATTRIBUTE_INDEX = 0;
+	static constexpr auto VOXEL_ID_ATTRIBUTE_INDEX = 1;
+	static constexpr auto FACE_ID_ATTRIBUTE_INDEX = 2;
 
-	if (inVertexData.indices.empty() ||
-		inVertexData.vertices.empty()) {
+	if (inVertexData.indices.empty() || inVertexData.vertices.empty()) {
 		throw std::invalid_argument("BaseMesh::setVertexData called with empty vertices");
-		return;
 	}
 
 	vertexData = inVertexData;
@@ -18,16 +17,30 @@ void BaseMesh::setVertexData(const VertexData& inVertexData) {
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, vertexData.vertices.size() * sizeof(glm::uint8), vertexData.vertices.data(), GL_STATIC_DRAW);
 
-	// Position Attribute
-	glVertexAttribPointer(POSITION_ATTRIBUTE_INDEX, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	// Assuming 5 attributes per vertex: x, y, z, voxelId, faceId (each 1 byte)
+	const int stride = 5 * sizeof(glm::uint8);
+
+	// Position Attribute (ivec3)
+	glVertexAttribIPointer(POSITION_ATTRIBUTE_INDEX, 3, GL_UNSIGNED_BYTE, stride, (void*)0);
 	glEnableVertexAttribArray(POSITION_ATTRIBUTE_INDEX);
 
-	// Color Attribute
-	glVertexAttribPointer(COLOR_ATTRIBUTE_INDEX, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(COLOR_ATTRIBUTE_INDEX);
+	// Voxel ID Attribute (int)
+	glVertexAttribIPointer(VOXEL_ID_ATTRIBUTE_INDEX, 1, GL_UNSIGNED_BYTE, stride, (void*)(3 * sizeof(glm::uint8)));
+	glEnableVertexAttribArray(VOXEL_ID_ATTRIBUTE_INDEX);
+
+	// Face ID Attribute (int)
+	glVertexAttribIPointer(FACE_ID_ATTRIBUTE_INDEX, 1, GL_UNSIGNED_BYTE, stride, (void*)(4 * sizeof(glm::uint8)));
+	glEnableVertexAttribArray(FACE_ID_ATTRIBUTE_INDEX);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, vertexData.indices.size() * sizeof(GLuint), vertexData.indices.data(), GL_STATIC_DRAW);
+}
+
+void BaseMesh::updateShader(const glm::mat4& view,
+	const glm::mat4& perspective)
+{
+	updateView(view);
+	updateProj(perspective);
 }
 
 BaseMesh::BaseMesh(const char* vertexPath, 
@@ -61,8 +74,7 @@ void BaseMesh::draw(const glm::mat4& view,
 
 	activate();
 
-	updateView(view);
-	updateProj(perspective);
+	updateShader(view, perspective);
 
 	glBindVertexArray(VAO);  // Bind the VAO (contains VBO & EBO)
 
