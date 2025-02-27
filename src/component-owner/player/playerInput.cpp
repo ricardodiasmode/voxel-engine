@@ -66,8 +66,7 @@ void PlayerInput::mapKey(const int key, const int action, const std::function<vo
 }
 
 void PlayerInput::update() {
-	if (!windowRef)
-		return;
+	assert(windowRef);
 
 	for (const auto& [inputData, callback] : mappedKeys) {
 		if (glfwGetKey(windowRef, inputData.key) == GLFW_PRESS &&

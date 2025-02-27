@@ -34,7 +34,7 @@ file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/resources/fonts/arial)
 file(COPY ${CMAKE_SOURCE_DIR}/resources/fonts/arial/ARIAL.ttf
      DESTINATION ${CMAKE_BINARY_DIR}/resources/fonts/arial)
 
-# Include your project�s headers (glad.h will be found inside include/)
+# Include your projects headers (glad.h will be found inside include/)
 target_include_directories(voxelengine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 target_include_directories(voxelengine PRIVATE ${GLM_DIR})
 

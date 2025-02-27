@@ -53,6 +53,7 @@ BaseMesh::~BaseMesh() {
 
 void BaseMesh::draw(const glm::mat4& view,
 	const glm::mat4& perspective) {
+
 	GLenum err = glGetError();
 	if (err == GL_OUT_OF_MEMORY) {
 		print("GL_OUT_OF_MEMORY before draw mesh");
@@ -65,7 +66,17 @@ void BaseMesh::draw(const glm::mat4& view,
 
 	glBindVertexArray(VAO);  // Bind the VAO (contains VBO & EBO)
 
+	err = glGetError();
+	if (err != GL_NO_ERROR) {
+		std::cerr << "OpenGL error before draw: " << err << std::endl;
+	}
+
 	glDrawElements(GL_TRIANGLES, vertexData.indices.size(), GL_UNSIGNED_INT, 0);  // Draw using indices
+
+	err = glGetError();
+	if (err != GL_NO_ERROR) {
+		std::cerr << "OpenGL error after draw: " << err << std::endl;
+	}
 
 	glBindVertexArray(0);  // Unbind for safety
 

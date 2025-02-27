@@ -3,6 +3,30 @@
 #include <utils/debug.h>
 #include "world/chunk/chunk.h"
 
+Player::Player(GLFWwindow* window)
+{
+	position = glm::vec3(Chunk::HORIZONTAL_CHUNK_SIZE, Chunk::CHUNK_SIZE, Chunk::CHUNK_SIZE * 1.5);
+
+	playerCamera = initializeComponent<Camera>(position,
+		0.f,
+		0.f);
+	assert(playerCamera);
+
+	double xpos, ypos;
+	glfwGetCursorPos(window, &xpos, &ypos);
+	playerInput = std::make_unique<PlayerInput>(window,
+		glm::vec2(xpos, ypos));
+	assert(playerInput);
+
+	mapKeyboard();
+
+	playerInput->mouseMoveCallback = [this](const glm::vec2& delta) {
+		assert(playerCamera);
+
+		playerCamera->rotate(delta * MOUSE_SENSITIVITY);
+		};
+}
+
 void Player::moveForward() {
 	if (!playerCamera)
 		return;
@@ -55,30 +79,6 @@ void Player::update() {
 		return;
 	playerInput->update();
 	playerCamera->update();
-}
-
-Player::Player(GLFWwindow* window)
-{
-	position = glm::vec3(Chunk::HORIZONTAL_CHUNK_SIZE, Chunk::CHUNK_SIZE, Chunk::CHUNK_SIZE * 1.5);
-
-	playerCamera = initializeComponent<Camera>(position,
-		0.f,
-		0.f);
-	assert(playerCamera);
-
-	double xpos, ypos;
-	glfwGetCursorPos(window, &xpos, &ypos);
-	playerInput = std::make_unique<PlayerInput>(window,
-		glm::vec2(xpos, ypos));
-	assert(playerInput);
-
-	mapKeyboard();
-
-	playerInput->mouseMoveCallback = [this](const glm::vec2& delta) {
-		if (playerCamera) {
-			playerCamera->rotate(delta * MOUSE_SENSITIVITY);
-		}
-	};
 }
 
 void Player::move(const glm::vec3 direction)
