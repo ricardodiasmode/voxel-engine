@@ -18,7 +18,7 @@ file(GLOB_RECURSE PROJECT_SOURCES
 
 add_executable(voxelengine ${PROJECT_SOURCES}
         src/window/window.cpp
-        src/world/chunk.cpp)
+        src/world/chunk.cpp "include/stb/image/stb_image.h" "include/screen/texture/texture.h" "src/screen/texture/texture.cpp")
 
 set(SHADER_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/opengl/shaders)
 
