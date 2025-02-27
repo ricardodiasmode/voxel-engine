@@ -41,4 +41,6 @@ void Window::initializeGL()
 
     // Enable VSync to cap FPS
     glfwSwapInterval(1);
+
+    glDisable(GL_CULL_FACE);
 }
